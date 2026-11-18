@@ -23,7 +23,7 @@ public class ExceptionMiddleware
             await _next(context);
         }
 
-        catch (ConflictException exception)
+        catch (EmailJaCadastradoException exception)
         {
             if (context.Response.HasStarted)
             {

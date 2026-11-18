@@ -23,7 +23,7 @@ public class AuthService
 
         if (profissionalExistente is not null)
         {
-            throw new ConflictException("Este e-mail já está cadastrado.");
+            throw new EmailJaCadastradoException("Este e-mail já está cadastrado.");
         }
 
         var profissional = new Profissional
