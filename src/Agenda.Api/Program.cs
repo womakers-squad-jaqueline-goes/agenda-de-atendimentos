@@ -6,6 +6,7 @@ using Agenda.Api.Models;
 using Microsoft.AspNetCore.Identity;
 using Agenda.Api.Services;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -32,3 +33,5 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }
