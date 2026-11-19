@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Agenda.Api.Exceptions;
 
 namespace Agenda.Api.Middlewares;
 
@@ -21,6 +22,32 @@ public class ExceptionMiddleware
         {
             await _next(context);
         }
+
+        catch (EmailJaCadastradoException exception)
+        {
+            if (context.Response.HasStarted)
+            {
+                throw;
+            }
+
+            context.Response.Clear();
+            context.Response.StatusCode = StatusCodes.Status409Conflict;
+
+            var problema = new ProblemDetails
+            {
+                Status = StatusCodes.Status409Conflict,
+                Title = "Conflito ao processar a solicitação.",
+                Detail = exception.Message,
+                Instance = context.Request.Path.Value
+            };
+
+            await context.Response.WriteAsJsonAsync(
+                problema,
+                options: null,
+                contentType: "application/problem+json",
+                cancellationToken: context.RequestAborted);
+        }
+
         catch (Exception exception)
         {
             _logger.LogError(
